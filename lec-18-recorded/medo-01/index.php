@@ -65,6 +65,19 @@ include "cheeseHelpers.inc.php";
 
   <?php
 
+  $connectionString = "mysql:host=localhost;dbname=cheese;charset=utf8mb4";
+
+  try {
+    $pdo = new PDO($connectionString, "root", "");
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  };
+
+  $statement = $pdo->prepare($sql = "SELECT * from cheeses WHERE classification IN ('soft','firm');");
+  $statement->execute();
+
+  $results = $statement->fetchAll(PDO::FETCH_OBJ);
+  var_dump($results);
 
   $cheeses = []; // cheese from database, not from array
   echo filteredUl($cheeses);
